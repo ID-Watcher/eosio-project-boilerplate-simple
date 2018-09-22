@@ -4,7 +4,6 @@ import Eos from 'eosjs'; // https://github.com/EOSIO/eosjs
 // material-ui dependencies
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
 // set up styling classes using material-ui "withStyles"
@@ -98,7 +97,7 @@ class Login extends Component {
             id="email"
             name="email"
             label="Email"
-            type="text"
+            type="email"
             autoComplete="current-email"
             margin="normal"
           />
