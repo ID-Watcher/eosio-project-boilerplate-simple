@@ -12,9 +12,6 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
-import Login from './login';
-import Results from './results';
-
 // NEVER store private keys in any source code in your real life development
 // This is for demo purposes only!
 const accounts = [
@@ -54,8 +51,7 @@ class Index extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      noteTable: [], // to store the table rows from smart contract
-      showLogin: true,
+      noteTable: [] // to store the table rows from smart contract
     };
     this.handleFormEvent = this.handleFormEvent.bind(this);
   }
@@ -69,7 +65,7 @@ class Index extends Component {
     // collect form data
     let account = event.target.account.value;
     let privateKey = event.target.privateKey.value;
-    let showLogin = true;
+    let note = event.target.note.value;
 
     // prepare variables for the switch below to send transactions
     let actionName = "";
@@ -79,6 +75,10 @@ class Index extends Component {
     switch (event.type) {
       case "submit":
         actionName = "update";
+        actionData = {
+          _user: account,
+          _note: note,
+        };
         break;
       default:
         return;
@@ -142,7 +142,6 @@ class Index extends Component {
     let noteCards = noteTable.map((row, i) =>
       generateCard(i, row.timestamp, row.user, row.note));
 
-
     return (
       <div>
         <AppBar position="static" color="default">
@@ -152,12 +151,46 @@ class Index extends Component {
             </Typography>
           </Toolbar>
         </AppBar>
-
+        {noteCards}
         <Paper className={classes.paper}>
-          { this.state.showLogin ? <Login /> : <Results /> }
-
+          <form onSubmit={this.handleFormEvent}>
+            <TextField
+              name="account"
+              autoComplete="off"
+              label="Account"
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              name="privateKey"
+              autoComplete="off"
+              label="Private key"
+              margin="normal"
+              fullWidth
+            />
+            <TextField
+              name="note"
+              autoComplete="off"
+              label="Note (Optional)"
+              margin="normal"
+              multiline
+              rows="10"
+              fullWidth
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.formButton}
+              type="submit">
+              Add / Update note
+            </Button>
+          </form>
         </Paper>
-
+        <pre className={classes.pre}>
+          Below is a list of pre-created accounts information for add/update note:
+          <br/><br/>
+          accounts = { JSON.stringify(accounts, null, 2) }
+        </pre>
       </div>
     );
   }
