@@ -36,7 +36,7 @@ class Index extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      noteTable: [], // to store the table rows from smart contract
+      actionTable: [], // to store the table rows from smart contract
       showLogin: true,
     };
   }

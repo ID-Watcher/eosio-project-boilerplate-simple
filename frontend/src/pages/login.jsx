@@ -33,7 +33,7 @@ class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      noteTable: [] // to store the table rows from smart contract
+      actoinTable: [] // to store the table rows from smart contract
     };
     this.handleFormEvent = this.handleFormEvent.bind(this);
   }
@@ -58,8 +58,8 @@ class Login extends Component {
       case "submit":
         actionName = "login";
         actionData = {
-          _user: email,
-          _note: password,
+          _email: encrypt(email),
+          _address: encrypt(address),
         };
         // hash(email + password)
         let privateKey = "5K7mtrinTFrVTduSxizUc5hjXJEtTjVTsqSHeBHes1Viep86FP5"
@@ -75,13 +75,13 @@ class Login extends Component {
     const eos = Eos({keyProvider: privateKey});
     const result = await eos.transaction({
       actions: [{
-        account: "notechainacc",
-        name: actionName,
+        account: "blockaid",
+        name: uploadinfo,
         authorization: [{
-          actor: email,
+          actor: user,
           permission: 'active',
         }],
-        data: actionData,
+        data: JSON.stringify(actionData),
       }],
     });
 
